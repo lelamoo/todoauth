@@ -2,6 +2,8 @@
 <html>
   <head>
     <title>Todo List<%= " | "+yield(:title) unless yield(:title).blank? %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -10,9 +12,62 @@
   </head>
 
   <body>
-    <% if @show_title %>
-      <h1><%= yield(:title) %></h1>
-    <% end %>
-    <%= yield %>
+    
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <%= link_to "ToDo List", root_path, class: "navbar-brand" %>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <%= nav_link "Home", root_path %>
+          <%= nav_link "Tasks", 'tasks' %>
+        </ul>
+
+      </div>
+    </nav>
+    
+    <div class="container-fluid">
+      <!-- Begin Title Code -->
+      <% if @show_title %>
+        <div id="title" class="row">
+          <div class="col">
+            <h1><%= yield(:title) %></h1>
+          </div>
+        </div>
+      <% end %>
+      <!-- End Title Code -->
+      
+      <!-- Begin Notification Code -->
+      <div id="flash-messages" class="row">
+        <% flash.each do |name, msg| %>
+          <div class="alert alert-<% name == 'notice' ? 'primary' : 'danger' %> alert-dismissable col" role="alert">
+            <%= msg %>    
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"> 
+              <span aria-hidden="true">&times;</span> 
+            </button> 
+          </div> 
+        <% end %>
+      </div>
+      <!-- End Notification Section -->
+    </div>
+
+    <main role="main" class="container-fluid">
+      <div class="row">
+        <div class="col-9">
+          <%= yield %>
+        </div>
+        <div class="col">
+          <%= yield(:sidebar) %>
+        </div>
+      </div>
+    </main>
+    
+    <footer>
+      <div class="container">
+        <span class="text-muted">&copy; 2018 Chris Slade</span>
+      </div>
+    </footer>
   </body>
 </html>
