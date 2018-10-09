@@ -19,6 +19,7 @@ gem 'uglifier', '>= 1.3.0'
 #Bootstrap Gems
 gem 'jquery-rails'
 gem 'bootstrap', '~> 4.1.3'
+gem 'material-sass', '~> 4.1.1'
 gem "bootstrap_form", ">= 4.0.0.alpha1"
 
 # Use CoffeeScript for .coffee assets and views
