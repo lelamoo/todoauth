@@ -2,17 +2,78 @@
 <html>
   <head>
     <title>Todo List<%= " | "+yield(:title) unless yield(:title).blank? %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
 
   <body>
-    <% if @show_title %>
-      <h1><%= yield(:title) %></h1>
-    <% end %>
-    <%= yield %>
+    
+    <header class="navbar navbar-dark navbar-fixed-top bg-primary">
+      <button aria-controls="navdrawerDefault" aria-expanded="false" aria-label="Toggle Navigation" class="navbar-toggler" type="button" data-target="#navdrawerDefault" data-toggle="navdrawer">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </header>
+    
+    <div aria-hidden="true" class="navdrawer" id="navdrawerDefault" tabindex="-1">
+      <div class="navdrawer-content">
+        <div class="navdrawer-header">
+          <%= link_to 'Todo App', root_path, class: 'navbar-brand px-0' %>
+        </div>
+
+        <nav class="navdrawer-nav">
+          <%= nav_link "Home", root_path %> 
+          <%= nav_link "Tasks", tasks_path %> 
+          <%= nav_link "About", about_path %>
+        </nav> 
+      </div>
+    </div> 
+    
+    <div class="container-fluid">
+      <!-- Begin Title Code -->
+      <% if @show_title %>
+        <div id="title" class="row">
+          <div class="col">
+            <h1><%= yield(:title) %></h1>
+          </div>
+        </div>
+      <% end %>
+      <!-- End Title Code -->
+      
+      <!-- Begin Notification Code -->
+      <div id="flash-messages" class="row">
+        <% flash.each do |name, msg| %>
+          <div class="alert alert-<% name == 'notice' ? 'primary' : 'danger' %> alert-dismissable col" role="alert">
+            <%= msg %>    
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"> 
+              <span aria-hidden="true">&times;</span> 
+            </button> 
+          </div> 
+        <% end %>
+      </div>
+      <!-- End Notification Section -->
+    </div>
+
+    <main role="main" class="container-fluid">
+      <div class="row">
+        <div class="col-9">
+          <%= yield %>
+        </div>
+        <div class="col">
+          <%= yield(:sidebar) %>
+        </div>
+      </div>
+    </main>
+    
+    <footer>
+      <div class="container">
+        <span class="text-muted">&copy; 2018 Chris Slade</span>
+      </div>
+    </footer>
   </body>
 </html>
